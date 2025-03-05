@@ -1,1 +1,231 @@
-<h1>HEllooo</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boston House Price Prediction</title>
+
+    <!-- FontAwesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='home.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Boston House Price Prediction</h1>
+        <p>
+          Enter your house details below to get an AI-powered price prediction
+          based on Boston housing data.
+        </p>
+      </header>
+
+      <div class="content">
+        <div class="form-container">
+          <h2>🏡 House Features</h2>
+          <p>
+            Fill all fields with your property details to get an accurate
+            prediction.
+          </p>
+          <form action="{{ url_for('predict') }}" method="POST">
+            <!-- Input with Icons -->
+            <div class="form-group">
+              <label>Crime Rate (CRIM)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-building"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="CRIM"
+                  placeholder="CRIM"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Residential Land Zoning % (ZN)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-city"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="ZN"
+                  placeholder="ZN"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Non-Retail Business Acres % (INDUS)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-industry"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="INDUS"
+                  placeholder="INDUS"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Charles River Dummy (CHAS)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-water"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="CHAS"
+                  placeholder="CHAS"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Nitric Oxide Concentration (NOX)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-flask"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="NOX"
+                  placeholder="NOX"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Average Rooms per Dwelling (RM)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-house"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="RM"
+                  placeholder="RM"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Owner-Occupied Units Built Pre-1940 % (AGE)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-clock"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="AGE"
+                  placeholder="AGE"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Employment Centers Distance (DIS)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-road"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="DIS"
+                  placeholder="DIS"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Highway Accessibility Index (RAD)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-route"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="RAD"
+                  placeholder="RAD"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Property Tax Rate (TAX)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="TAX"
+                  placeholder="TAX"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Pupil-Teacher Ratio (PTRATIO)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-chalkboard-teacher"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="PTRATIO"
+                  placeholder="PTRATIO"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Black Population % (B)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-users"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="B"
+                  placeholder="B"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Lower Status Population % (LSTAT)</label>
+              <div class="input-container">
+                <i class="fa-solid fa-chart-line"></i>
+                <input
+                  type="number"
+                  step="any"
+                  name="LSTAT"
+                  placeholder="LSTAT"
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="predict-btn">Predict Price →</button>
+          </form>
+        </div>
+
+        <div class="sidebar">
+          <h2>💲 Predicted Price</h2>
+          {{prediction_text}}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
