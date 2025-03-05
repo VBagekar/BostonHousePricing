@@ -1,11 +1,15 @@
 import pickle
-from flask import Flask, request, app, render_template, jsonify, url_for
+from flask import Flask, request, render_template, jsonify
 import numpy as np
-import pandas as pd
+
+# Load model and scaler
+with open("regmodel.pkl", "rb") as f:
+    resmodel = pickle.load(f)
+
+with open("scaling.pkl", "rb") as f:
+    scalar = pickle.load(f)
 
 app = Flask(__name__)
-resmodel = pickle.load(open('regmodel.pkl', 'rb'))
-scalar = pickle.load(open('scaling.pkl', 'rb'))
 
 @app.route('/')
 def home():
@@ -13,15 +17,19 @@ def home():
 
 @app.route('/predict_api', methods=['POST'])
 def predict_api():
-    data = request.json['data']
-    print(data)
-    print(list(data.values()))  
-    print(np.array(list(data.values())).reshape(1, -1)) 
-    new_data=scalar.transform(np.array(list(data.values())).reshape(1, -1))
-    output = resmodel.predict(new_data)
-    print(output[0])
-    return jsonify({'prediction': output[0]})
+    data = request.get_json()
     
+    if 'data' not in data:
+        return jsonify({"error": "Invalid input format"}), 400
+
+    try:
+        values = list(data['data'].values())
+        input_array = np.array(values).reshape(1, -1)
+        transformed_data = scalar.transform(input_array)
+        output = resmodel.predict(transformed_data)
+        return jsonify({'prediction': float(output[0])})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
